@@ -22,8 +22,7 @@ public class Counter {
         return "";
     }
 
-    public static Map<String, Integer> parseString(){
-        String s = getClipboardString();   
+    public static Map<String, Integer> parseString(String s){   
         Map<String, Integer> counts = new HashMap<>();
 
         // number of lines 
@@ -50,6 +49,7 @@ public class Counter {
         int numCount = 0;
         String[] wordsArray = s.split("\\W+");
         List<String> wordsList = new ArrayList<>(Arrays.asList(wordsArray));
+        wordsList = wordsList.stream().filter(value -> value!="").collect(Collectors.toList());     // to remove empty strings from the list
         System.out.println(wordsList);
         for(String word : wordsList){
             try{
