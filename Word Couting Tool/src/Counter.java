@@ -50,6 +50,7 @@ public class Counter {
         int numCount = 0;
         String[] wordsArray = s.split("\\W+");
         List<String> wordsList = new ArrayList<>(Arrays.asList(wordsArray));
+        System.out.println(wordsList);
         for(String word : wordsList){
             try{
                 Integer.parseInt(word);
@@ -67,7 +68,7 @@ public class Counter {
         List<Character> specialCharacters = new ArrayList<>();
 
         // define a pattern for searching for regex
-        Pattern pattern = Pattern.compile("^a-zA-Z0-9\\s]");
+        Pattern pattern = Pattern.compile("[^\\w0-9\\s]");
         Matcher matcher = pattern.matcher(s);
 
         while(matcher.find()){

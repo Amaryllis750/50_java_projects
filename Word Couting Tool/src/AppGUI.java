@@ -22,6 +22,7 @@ public class AppGUI {
 
         JButton showButton = new JButton("Show Count");
         showButton.addActionListener(event -> showCount());
+        showButton.setBackground(Color.white);
 
         mainPanel.add(showButton);
 
