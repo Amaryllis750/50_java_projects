@@ -1,0 +1,8 @@
+{
+    "java.project.sourcePaths": [
+        "currency converter\\src"
+    ],
+    "java.project.referencedLibraries": [
+        "c:\\Users\\Admin\\Downloads\\gson-2.10.1.jar"
+    ]
+}
