@@ -13,6 +13,8 @@ import java.net.URISyntaxException;
 import java.util.*;
 import java.util.stream.*;
 
+import gui.StretchIcon;
+
 
 public class AppGUI {
     private JPanel inputContainer;
@@ -22,6 +24,7 @@ public class AppGUI {
     private JComboBox<String> newCurrField;
     private JTextField resultField;
     private java.util.List<String> currencies;
+    private Color bg = new Color(192, 134, 103);
 
 
     public void setupGUI(){
@@ -30,39 +33,53 @@ public class AppGUI {
 
         // set up the GUI frame and background panel
         frame = new JFrame("Currency Converter");
-        frame.setSize(450, 600);
+        frame.setBackground(bg);
         JPanel background = new JPanel();
-        background.setLayout(new BorderLayout());
+        background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
+        background.setBackground(bg);
+        
 
         // create the title panel
         JPanel titlePanel = new JPanel();
         titlePanel.setLayout(new BorderLayout());
         JLabel title = new JLabel("Currency Converter");
-        JLabel refreshIcon = new JLabel("aa");
+        title.setFont(new Font("Dialog", Font.BOLD, 20));
+        title.setForeground(Color.white);
+        ImageIcon refresh = new ImageIcon("currency converter\\src\\images\\refresh.png");
+        refresh = resizeImage(refresh, 30, 30);
+        JLabel refreshIcon = new JLabel(refresh);
         titlePanel.add(BorderLayout.WEST, title);
         titlePanel.add(BorderLayout.EAST, refreshIcon);
+        titlePanel.setBounds(0, 0, 500, 45);
+        titlePanel.setBackground(bg);
         titlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        titlePanel.setPreferredSize(new Dimension(500, 50));
         
         // BODY PANEL
         JPanel bodyPanel = new JPanel();
+        bodyPanel.setLayout(new BorderLayout());
         // create the image label
         // read the image
-        ImageIcon img = setupImage(new File("currency converter\\\\src\\\\images\\\\elena.jpg"));
+        ImageIcon img = setupImage(new File("currency converter\\src\\images\\elena.jpg"));
         JLabel imgLabel = new JLabel(img);
-        bodyPanel.add(imgLabel);
+        imgLabel.setBackground(bg);
+        imgLabel.setPreferredSize(new Dimension(480, 150));
+        
+        bodyPanel.add(BorderLayout.NORTH, imgLabel);
 
         // set up the container where the inputs will be stored
         inputContainer = new JPanel();
         inputContainer.setLayout(new BoxLayout(inputContainer, BoxLayout.Y_AXIS));
         setupInputContainer();
-        bodyPanel.add(inputContainer);
+        bodyPanel.add(BorderLayout.CENTER, inputContainer);
 
 
 
-        background.add(BorderLayout.NORTH, titlePanel);
-        background.add(BorderLayout.CENTER, bodyPanel);
+        background.add(titlePanel);
+        background.add(bodyPanel);
         frame.getContentPane().add(BorderLayout.CENTER, background);
         // frame.setResizable(false);
+        frame.pack();
         frame.setVisible(true);
     }
 
@@ -74,6 +91,7 @@ public class AppGUI {
         inputAmountField.setFont(new Font("Dialog", Font.PLAIN, 28));
 
         JPanel currencySelectionPanel = new JPanel();
+        currencySelectionPanel.setBackground(bg);
         currencySelectionPanel.setLayout(new GridLayout(1, 2, 3, 3));
 
         // get the available currencies from the API
@@ -94,16 +112,23 @@ public class AppGUI {
         inputAmountField.addActionListener(event -> convert());
 
         // add GUI elements to inputContainer panel....
+        inputContainer.add(Box.createRigidArea(new Dimension(0, 10)));
         inputContainer.add(inputAmountField);
+        inputContainer.add(Box.createRigidArea(new Dimension(0, 10)));
+
         currencySelectionPanel.add(originalCurrField);
         currencySelectionPanel.add(newCurrField);
+
+        inputContainer.add(Box.createRigidArea(new Dimension(0, 10)));
         inputContainer.add(currencySelectionPanel);
+        inputContainer.add(Box.createRigidArea(new Dimension(0, 10)));
         inputContainer.add(resultField);
+        inputContainer.setBackground(bg);
     }
 
     public ImageIcon setupImage(File file){
         ImageIcon imgIcon = new ImageIcon("currency converter\\src\\images\\elena.jpg");
-        imgIcon = resizeImage(imgIcon, 150, frame.getWidth());
+        imgIcon = resizeImage(imgIcon, 150, (imgIcon.getIconWidth()/8));
         return imgIcon;
     }
 
