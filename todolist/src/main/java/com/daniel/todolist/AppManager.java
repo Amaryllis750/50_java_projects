@@ -5,6 +5,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import com.formdev.*;
 import com.formdev.flatlaf.FlatLightLaf;
 
+import com.daniel.todolist.gui.*;
+
 public class AppManager {
     public static void main(String[] args) {
         try{
@@ -13,5 +15,7 @@ public class AppManager {
         catch(UnsupportedLookAndFeelException e){
             e.printStackTrace();
         }
+
+        new LoginGUI("Login Into Your Account");
     }
 }
