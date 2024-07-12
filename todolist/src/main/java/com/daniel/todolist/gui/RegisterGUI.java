@@ -3,13 +3,15 @@ package com.daniel.todolist.gui;
 import javax.swing.*;
 
 import com.daniel.todolist.db_objs.MyJDBC;
+import com.daniel.todolist.gui.todolist_components.MyButton;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
+import java.awt.event.*;
 import java.util.function.Function;
 
 public class RegisterGUI extends JFrame {
-    private Font guiFont = new Font("Dialog", Font.PLAIN, 20);
+    private Font textFieldFont = new Font("Dialog", Font.PLAIN, 20);
+    private Font labelFont = new Font("Dialog", Font.PLAIN, 14);
     private JTextField fullnameField;
     private JTextField emailField;
     private JTextField usernameField;
@@ -28,78 +30,88 @@ public class RegisterGUI extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(15, 15, 15, 15);
 
-        // setup name label
+        // setup the register icon
         gbc.gridx = 0;
         gbc.gridy = 0;
+        ImageIcon registerImgIcon = new ImageIcon("todolist\\src\\resources\\images\\profile.png");
+        JLabel imgLabel = new JLabel(registerImgIcon);
+        background.add(imgLabel, gbc);
+
+        // setup name label
+        gbc.gridy++;
         JLabel nameLabel = new JLabel("Fullname");
-        nameLabel.setFont(guiFont);
+        nameLabel.setFont(labelFont);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 15, 0, 0);
         background.add(nameLabel, gbc);
 
         // this is the name field
-        gbc.gridx = 1;
-        gbc.gridy = 0;
+        gbc.gridy++;
         fullnameField = new JTextField(20);
-        fullnameField.setFont(guiFont);
+        fullnameField.setFont(textFieldFont);
+        gbc.insets = new Insets(0, 15, 15, 15);
         background.add(fullnameField, gbc);
 
         // setup email label
-        gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy++;
         JLabel emailLabel = new JLabel("Email");
-        emailLabel.setFont(guiFont);
+        emailLabel.setFont(labelFont);
+        gbc.insets = new Insets(0, 15, 0, 0);
         background.add(emailLabel, gbc);
 
         // this is the email field
-        gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridy++;
         emailField = new JTextField(20);
-        emailField.setFont(guiFont);
+        emailField.setFont(textFieldFont);
+        gbc.insets = new Insets(0, 15, 15, 15);
         background.add(emailField, gbc);
 
         // setup username label
-        gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy++;
         JLabel usernameLabel = new JLabel("Username");
-        usernameLabel.setFont(guiFont);
+        usernameLabel.setFont(labelFont);
+        gbc.insets = new Insets(0, 15, 0, 0);
         background.add(usernameLabel, gbc);
 
         // this is the username field
-        gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy++;
         usernameField = new JTextField(20);
-        usernameField.setFont(guiFont);
+        usernameField.setFont(textFieldFont);
+        gbc.insets = new Insets(0, 15, 15, 15);
         background.add(usernameField, gbc);
 
         // setup password label
-        gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy++;
         JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setFont(guiFont);
+        passwordLabel.setFont(labelFont);
+        gbc.insets = new Insets(0, 15, 0, 0);
         background.add(passwordLabel, gbc);
 
         // this is the name field
-        gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy++;
         passwordField = new JPasswordField(20);
-        passwordField.setFont(guiFont);
+        passwordField.setFont(textFieldFont);
+        gbc.insets = new Insets(0, 15, 15, 15);
         background.add(passwordField, gbc);
 
         // register button
-        gbc.gridx = 1;
-        gbc.gridy = 4;
+        gbc.gridy++;
         gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        JButton registerButton = new JButton("Register");
+        MyButton registerButton = new MyButton("Register");
         registerButton.addActionListener(event -> registerUser());
-        registerButton.setFont(guiFont);
+        registerButton.setFont(textFieldFont);
+        // set the grid bag constraints for the button
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(15, 15, 15, 15);
         background.add(registerButton, gbc);
 
         // this is a link that will lead to the LoginGUI
-        gbc.gridx = 1;
-        gbc.gridy = 5;
+        gbc.gridy++;
         gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
         JLabel signInLabel = new JLabel("<html><a href=\"#\"> Already have an account with us? </a></html>");
-        signInLabel.setFont(guiFont);
+        signInLabel.setFont(textFieldFont);
         signInLabel.setForeground(new Color(118, 181, 197));
         signInLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent e) {

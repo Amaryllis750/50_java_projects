@@ -7,12 +7,14 @@ import java.awt.event.MouseEvent;
 
 import com.daniel.todolist.db_objs.*;
 import com.daniel.todolist.gui.ToDoList;
+import com.daniel.todolist.gui.todolist_components.MyButton;
 
 public class LoginGUI extends JFrame{
     JTextField usernameField;
     JPasswordField passwordField;
 
-    private Font guiFont = new Font("Dialog", Font.PLAIN, 20); 
+    private Font textFieldFont = new Font("Dialog", Font.PLAIN, 20); 
+    private Font labelFont = new Font("Dialog", Font.PLAIN, 14);
 
     public LoginGUI(String title){
         super(title);
@@ -30,51 +32,58 @@ public class LoginGUI extends JFrame{
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(15, 15, 15, 15);
 
-        // create the username label
+        // create the login or signup icon
+        ImageIcon loginImgIcon = new ImageIcon("todolist\\src\\resources\\images\\profile.png");
+        JLabel imgLabel = new JLabel(loginImgIcon);
         gbc.gridx = 0;
         gbc.gridy = 0;
+        background.add(imgLabel, gbc);
+
+        // create the username label
+        gbc.gridy++;
         JLabel usernameLabel = new JLabel("Username");
-        usernameLabel.setFont(guiFont);
+        usernameLabel.setFont(labelFont);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 15, 0, 0);
         background.add(usernameLabel, gbc);
 
         // username textfield
-        gbc.gridx = 1;
-        gbc.gridy = 0;
+        gbc.gridy++;
         usernameField = new JTextField(20);
-        usernameField.setFont(guiFont);
+        usernameField.setFont(textFieldFont);
+        gbc.insets = new Insets(2, 15, 15, 15);
         background.add(usernameField, gbc);
 
         // password label
-        gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy++;
         JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setFont(guiFont);
+        passwordLabel.setFont(labelFont);
+        gbc.insets = new Insets(0, 15, 0, 0);
         background.add(passwordLabel, gbc);
 
         // password textfield
-        gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridy++;
         passwordField = new JPasswordField(20);
-        passwordField.setFont(guiFont);
+        passwordField.setFont(textFieldFont);
+        gbc.insets = new Insets(2, 15, 15, 15);
         background.add(passwordField, gbc);
 
 
         // this is the login button
-        gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy++;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        JButton loginButton = new JButton("Login");
-        loginButton.setFont(guiFont);
+        MyButton loginButton = new MyButton("Login");
+        loginButton.setFont(textFieldFont);
         loginButton.addActionListener(event -> loginUser());
         background.add(loginButton, gbc);
 
         // this is the link that will lead to the registration page
-        gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy++;
         gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
         JLabel signUpLabel = new JLabel("<html><a href=\"#\"> Don't have an account?</a></html>");
-        signUpLabel.setFont(guiFont);
+        signUpLabel.setFont(textFieldFont);
         signUpLabel.setForeground(new Color(118,181,197));
         signUpLabel.addMouseListener(new MouseAdapter(){
 
@@ -103,7 +112,7 @@ public class LoginGUI extends JFrame{
         }
         else{
             JOptionPane.showMessageDialog(this, "Welcome");
-            new ToDoList(user);
+            new ToDoList(user, "My Todo-List");
             this.dispose();
         }
     }

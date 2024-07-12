@@ -1,16 +1,22 @@
 package com.daniel.todolist.db_objs;
 
 public class User {
+    private int id;
     private String fullname;
     private String username;
     private String email;
     private String password;
 
-    public User(String fname, String uname, String email, String pwd){
+    public User(int id, String fname, String uname, String email, String pwd){
+        this.id = id;
         this.fullname = fname;
         this.username = uname;
         this.email = email;
         this.password = pwd;
+    }
+
+    public int getId(){
+        return this.id;
     }
 
     public String getFullname() {
