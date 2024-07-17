@@ -2,7 +2,6 @@ package com.daniel.todolist;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import com.formdev.*;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import jiconfont.swing.IconFontSwing;
