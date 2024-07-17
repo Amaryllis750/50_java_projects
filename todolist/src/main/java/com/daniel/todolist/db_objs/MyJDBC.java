@@ -1,5 +1,6 @@
 package com.daniel.todolist.db_objs;
 
+import java.awt.event.ActionEvent;
 import java.sql.*;
 import java.text.DateFormat;
 
@@ -21,6 +22,57 @@ public class MyJDBC {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static boolean commitAction(ActionEvent e, int taskId){
+        createConnection();
+
+        try{
+            // this is an sql statement that does nothing
+            PreparedStatement statement = con.prepareStatement(
+                "DELCARE @value INT\n" +
+                "IF @value IS NULL\n" + 
+                "BEGIN\n" + 
+                "no_op1:\n"+
+                "END"
+            );
+            if("DELETE".equals(e.getActionCommand())){
+                statement = con.prepareStatement(
+                    "DELETE FROM todolist.tasks where task_id=?"
+                );
+            }
+            else if("COMPLETE".equals(e.getActionCommand())){
+               statement = con.prepareStatement(
+                    "UPDATE todolist.tasks\n" +
+                    "SET completed = \n" +
+                    "   CASE WHEN completed = FALSE THEN TRUE\n" + 
+                    "   ELSE FALSE\n"+
+                    "   END\n"+
+                    "WHERE task_id=?"
+               );
+            }
+            else if("IMPORTANT".equals(e.getActionCommand())){
+                statement = con.prepareStatement(
+                    "UPDATE todolist.tasks\n"+
+                    "SET important = \n" +
+                    "   CASE WHEN important = FALSE THEN TRUE\n"+
+                    "   ELSE FALSE\n"+
+                    "   END\n"+
+                    "WHERE task_id=?"
+                );
+            }
+
+            statement.setInt(1, taskId);
+            int affectedRows = statement.executeUpdate();
+            if(affectedRows == 1){
+                return true;
+            }
+            return false;
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+            return false;
         }
     }
 

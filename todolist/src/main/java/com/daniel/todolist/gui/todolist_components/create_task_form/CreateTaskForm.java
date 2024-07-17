@@ -90,5 +90,7 @@ public class CreateTaskForm extends JDialog{
         else{
             JOptionPane.showMessageDialog(this, "Sorry, there must have been an error in registering your task");
         }
+
+        frameOwner.refreshTable();
     }
 }

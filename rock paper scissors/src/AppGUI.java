@@ -17,11 +17,11 @@ public class AppGUI {
     JLabel result;
 
     // style the button icons
-    private Icon rockIcon = resizeImageIcon(new ImageIcon("rock paper scissors\\src\\images\\rock-option.png"),
+    private Icon rockIcon = resizeImageIcon(new ImageIcon("rock paper scissors\\src\\images\\rock-option.jpg"),
                                          40, 40);
-    private Icon paperIcon = resizeImageIcon(new ImageIcon("rock paper scissors\\src\\images\\paper-option.png"),
+    private Icon paperIcon = resizeImageIcon(new ImageIcon("rock paper scissors\\src\\images\\paper-option.jpg"),
                         40, 40);    
-    private Icon scissorsIcon = resizeImageIcon(new ImageIcon("rock paper scissors\\src\\images\\scissors-option.png"),
+    private Icon scissorsIcon = resizeImageIcon(new ImageIcon("rock paper scissors\\src\\images\\scissors-option.jpg"),
                 40, 40);
 
     public void setupGUI(){

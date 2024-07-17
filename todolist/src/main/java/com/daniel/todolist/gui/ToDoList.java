@@ -32,10 +32,9 @@ public class ToDoList extends JFrame{
         SideBar sidePanel = new SideBar();
         // this is a panel at the bottom of the screen to generate a form to add a new task
         JPanel addNewTask = new AddTask();
-        // this is a list of tasks available in the database
-        java.util.List<Task> currentTasks = sidePanel.filterTaskList(MyJDBC.getTasks(user.getId()), "");
         // this is the place where the tasks will be shown
-        contentPage = new ContentPage(currentTasks);
+        contentPage = new ContentPage(user);
+        contentPage.filterTable("");
         // contentPage.setupGUI();
 
 
@@ -45,7 +44,12 @@ public class ToDoList extends JFrame{
         getContentPane().add(BorderLayout.CENTER, background);
     }
 
-    public void updateContentPage(java.util.List<Task> tasks){
+    public void updateContentPage(String category){
         System.out.println("HI there");
+        contentPage.filterTable(category);
+    }
+
+    public void refreshTable(){
+        contentPage.resetModelData();
     }
 }

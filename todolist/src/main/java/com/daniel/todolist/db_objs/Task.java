@@ -1,6 +1,11 @@
 package com.daniel.todolist.db_objs;
 
+import java.text.SimpleDateFormat;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+
+import java.awt.*;
 
 public class Task {
 
@@ -13,6 +18,9 @@ public class Task {
     private int userId;
     private int assigned_by;
     private boolean isImportant;
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private Color taskColor = Color.green;
 
     public Task(int taskId, String taskName, Date created_date, Date deadline, boolean overdue, boolean completed,
                 int userId, int asssigned_by, boolean isImportant){
@@ -61,5 +69,35 @@ public class Task {
 
     public boolean getIsImportant(){
         return this.isImportant;
+    }
+
+    public String getDaysLeft(){
+        String result;
+        LocalDate localCreated = LocalDate.parse(dateFormat.format(createdDate), dtf);
+        LocalDate localDeadline = LocalDate.parse(dateFormat.format(deadline), dtf);
+
+        long daysBetween = Duration.between(localCreated.atStartOfDay(), localDeadline.atStartOfDay()).toDays();
+        if(daysBetween < 0){
+            result = daysBetween + " days overdue";
+            // change the task color to red
+            taskColor = Color.red;
+            return result;
+        }
+        result = daysBetween + " days left";
+        return result;
+    }
+
+    @Override 
+    public String toString(){
+        return this.taskName;
+    }
+
+    public void toggleImportant(){
+        if(this.isImportant == true){
+            this.isImportant = false;
+        }
+        else{
+            this.isImportant = true;
+        }
     }
 }

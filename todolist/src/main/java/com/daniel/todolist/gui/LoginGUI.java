@@ -1,9 +1,14 @@
 package com.daniel.todolist.gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 import com.daniel.todolist.db_objs.*;
 import com.daniel.todolist.gui.ToDoList;
@@ -33,7 +38,16 @@ public class LoginGUI extends JFrame{
         gbc.insets = new Insets(15, 15, 15, 15);
 
         // create the login or signup icon
-        ImageIcon loginImgIcon = new ImageIcon("todolist\\src\\resources\\images\\profile.png");
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        URL is = classLoader.getResource("images\\profile.png");
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        ImageIcon loginImgIcon = new ImageIcon(img);
         JLabel imgLabel = new JLabel(loginImgIcon);
         gbc.gridx = 0;
         gbc.gridy = 0;

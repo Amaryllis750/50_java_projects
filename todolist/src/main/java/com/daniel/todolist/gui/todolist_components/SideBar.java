@@ -13,70 +13,66 @@ import java.awt.event.*;
 import java.util.*;
 import java.util.stream.*;
 
-public class SideBar extends JPanel{
+public class SideBar extends JPanel {
     private Font guiFont = new Font("Dialog", Font.PLAIN, 18);
     private GridBagConstraints gbc = new GridBagConstraints();
+    private SideBarButton tasksAssignedToMe;
+    private SideBarButton tasks;
+    private SideBarButton importantTasks;
 
-    public SideBar(){
+    public SideBar() {
         setLayout(new GridBagLayout());
         setupGUI();
-    }   
+    }
 
-    public void setupGUI(){
+    public void setupGUI() {
         setBackground(Color.white);
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.insets = new Insets(15, 15, 15, 15);
-        // add the first label -> this label denotes a section for tasks that were assigned to you by others
+        // add the first label -> this label denotes a section for tasks that were
+        // assigned to you by others
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        JButton tasksAssignedToMe = new SideBarButton("Assigned to me");
+        tasksAssignedToMe = new SideBarButton("Assigned to me");
         tasksAssignedToMe.setName("ASSIGNED");
-        tasksAssignedToMe.addActionListener(event -> changeContentPage("ASSIGNED"));
+        tasksAssignedToMe.addActionListener(event -> {
+            changeContentPage("ASSIGNED");
+            handleButtonPress(event);
+        });
         add(tasksAssignedToMe, gbc);
 
         // this label denotes a section for total tasks that the user has
         gbc.gridy++;
-        JButton tasks = new SideBarButton("Tasks");
+        tasks = new SideBarButton("Tasks");
         tasks.setName("");
-        tasks.addActionListener(event -> changeContentPage(""));
+        tasks.setActive(true);
+        tasks.addActionListener(event -> {
+            changeContentPage("");
+            handleButtonPress(event);
+        });
         add(tasks, gbc);
 
         // this is the label for the important tasks
         gbc.gridy++;
-        JButton importantTasks = new SideBarButton("Important");
+        importantTasks = new SideBarButton("Important");
         importantTasks.setName("IMPORTANT");
-        importantTasks.addActionListener(event -> changeContentPage("IMPORTANT"));
+        importantTasks.addActionListener(event -> {
+            changeContentPage("IMPORTANT");
+            handleButtonPress(event);
+        });
         gbc.weighty = 1.0;
         add(importantTasks, gbc);
     }
 
-    public java.util.List<Task> filterTaskList(java.util.List<Task> tasks, String category){
-        // initialize a list of filtered tasks
-        java.util.List<Task> filteredTasks;
-
-        // depending on the category passed into the function, filter the list according to these conditions
-        if(category == "ASSIGNED"){
-            filteredTasks = tasks.stream().filter((task) -> task.getUserId() != task.getAssigned_by()).collect(Collectors.toList());
-        }
-        else if(category == "IMPORTANT"){
-            filteredTasks = tasks.stream().filter(Task::getIsImportant).collect(Collectors.toList());
-        }
-        else{
-            // if there is no condition just return all the tasks
-            filteredTasks = tasks;
-        }
-        return filteredTasks;
+    // this would handle the button changing colors when they are pressed
+    public void handleButtonPress(ActionEvent e) {
+        
     }
 
-    public void changeContentPage(String category){
+    public void changeContentPage(String category) {
         // get the main frame of the todolist application
         ToDoList ownerFrame = (ToDoList) SwingUtilities.windowForComponent(SideBar.this);
-        // get the user associated with the todolist application
-        User user = ownerFrame.getUser();
-        // get all the tasks
-        java.util.List<Task> filteredTasks = filterTaskList(MyJDBC.getTasks(user.getId()), category);
-        // each time this function is called, the main frame to update the panel where the tasks are shown
-        ownerFrame.updateContentPage(filteredTasks);
+        ownerFrame.updateContentPage(category);
     }
 }
