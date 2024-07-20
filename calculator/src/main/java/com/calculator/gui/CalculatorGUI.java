@@ -23,12 +23,10 @@ public class CalculatorGUI extends JFrame{
         background.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         // this is the panel that contains the disabled input field of the calculator
-        JPanel inputPanel = new JPanel();
         inputTextField = new JTextField();
         inputTextField.setBackground(Color.white);
         inputTextField.setEnabled(false);
         inputTextField.setFont(inputFont);
-        // inputPanel.add(inputTextField);
 
         // this is the panel that will contain all the buttons that will be in the calculator;
         buttonPanel = new JPanel();
