@@ -8,11 +8,17 @@ import javax.swing.*;
 import java.awt.*;
 
 import com.quizapp.entities.*;
+import com.quizapp.gui.quizcomponents.PaddedButton;
 
 public class CreateQuiz extends JDialog {
     private java.util.List<Question> questions = new ArrayList<>();
     private JTextField questionField, answerField, option1, option2, option3;
-    private JPanel contentPanel, otherOptionsPanel;
+    private JPanel otherOptionsPanel;
+    private Font fieldFont = new Font("Century Gothic", Font.PLAIN, 18);
+    private GridBagConstraints gbc = new GridBagConstraints();
+    private GridBagConstraints gbc1 = new GridBagConstraints();
+    private Insets labelInsets = new Insets(0, 15, 0, 0);
+    private Insets fieldInsets = new Insets(0, 0, 15, 0);
 
     public CreateQuiz(JFrame owner) {
         super(owner, "Create new Quiz", true);
@@ -21,45 +27,87 @@ public class CreateQuiz extends JDialog {
 
     public void setupGUI() {
         JPanel background = new JPanel();
-        background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
+        background.setLayout(new GridBagLayout());
 
         // this is the question field where the question will be imported
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets =  labelInsets;
+        JLabel questionLabel = new JLabel("Question");
+        background.add(questionLabel, gbc);
+
+        gbc.gridy++;
+        gbc.insets = fieldInsets;
+        gbc.anchor = GridBagConstraints.CENTER;
         questionField = new JTextField(20);
+        background.add(questionField, gbc);
+
+        gbc.gridy++;
+        gbc.insets = labelInsets;
+        gbc.anchor = GridBagConstraints.WEST;
+        JLabel correctAnswerLabel = new JLabel("Correct Option");
+        background.add(correctAnswerLabel, gbc);
+
+        gbc.gridy++;
+        gbc.insets = fieldInsets;
+        gbc.anchor = GridBagConstraints.CENTER;
         answerField = new JTextField(20);
+        background.add(answerField, gbc);
 
-        contentPanel = new JPanel();
-        contentPanel.add(questionField);
-        contentPanel.add(answerField);
-
+        gbc.gridy++;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = labelInsets;
+        JLabel otherOptionLabel = new JLabel("Other Options: ");
+        background.add(otherOptionLabel, gbc);
+        
+        // this is the panel where the other incorrect options will be displayed
+        gbc.gridy++;
+        gbc.insets = fieldInsets;
+        gbc.anchor = GridBagConstraints.CENTER;
         otherOptionsPanel = new JPanel();
-        option1 = new JTextField();
-        option2 = new JTextField();
-        option3 = new JTextField();
-        otherOptionsPanel.add(option1);
-        otherOptionsPanel.add(option2);
-        otherOptionsPanel.add(option3);
+        otherOptionsPanel.setLayout(new GridBagLayout());
+        setupOtherOptionsPanel();
+        background.add(otherOptionsPanel, gbc);
 
         // button panel - this will store three buttons:
         // addOption button, newQuestionButton, saveQuizButton
+        gbc.gridy++;
+        gbc.weighty = 1.0;
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        JButton addOption = new JButton("Add Other Options");
+        buttonPanel.setBackground(Color.white);
+        PaddedButton addOption = new PaddedButton("Add Other Options");
         addOption.addActionListener(event -> addNewOption());
-        JButton newQuestionButton = new JButton("New Question");
+        PaddedButton newQuestionButton = new PaddedButton("New Question");
         newQuestionButton.addActionListener(event -> nextQuestion());
-        JButton saveQuiz = new JButton("Save Quiz");
+        PaddedButton saveQuiz = new PaddedButton("Save Quiz");
         saveQuiz.addActionListener(event -> saveQuiz());
+        background.add(buttonPanel, gbc);
+
+        // sets up all the fonts for input labels
+        setupFonts();
+
         buttonPanel.add(addOption);
         buttonPanel.add(newQuestionButton);
         buttonPanel.add(saveQuiz);
-
-        background.add(contentPanel);
-        background.add(otherOptionsPanel);
-        background.add(buttonPanel);
         getContentPane().add(BorderLayout.CENTER, background);
 
         setSize(450, 500);
-        pack();
         setVisible(true);
+    }
+
+    private void setupOtherOptionsPanel() {
+        gbc1.gridy = 0;
+        gbc1.insets = fieldInsets;
+        option1 = new JTextField(20);
+        otherOptionsPanel.add(option1, gbc1); // gbc.gridy has already been set to 0
+
+        gbc1.gridy++;
+        option2 = new JTextField(20);
+        otherOptionsPanel.add(option2, gbc1);
+
+        gbc1.gridy++;
+        option3 = new JTextField(20);
+        otherOptionsPanel.add(option3, gbc1);
     }
 
     private void addQuestion() {
@@ -74,6 +122,16 @@ public class CreateQuiz extends JDialog {
         // create a new question object
         Question newQuestion = new Question(question, answer, options);
         questions.add(newQuestion);
+    }
+
+    private void setupFonts() {
+        questionField.setFont(fieldFont);
+        answerField.setFont(fieldFont);
+        for (Component com : otherOptionsPanel.getComponents()) {
+            JTextField field = (JTextField) com;
+            field.setFont(fieldFont);
+        }
+
     }
 
     private void nextQuestion() {
@@ -102,7 +160,10 @@ public class CreateQuiz extends JDialog {
     }
 
     private void addNewOption() {
-        otherOptionsPanel.add(new JTextField());
+        gbc1.gridy++;
+        JTextField newField = new JTextField(20);
+        newField.setFont(fieldFont);
+        otherOptionsPanel.add(newField, gbc1);
         revalidate();
         repaint();
     }
@@ -117,13 +178,14 @@ public class CreateQuiz extends JDialog {
             path = chooser.getSelectedFile().getAbsolutePath();
 
             String filename = JOptionPane.showInputDialog(this, "Save Quiz Name as: ");
+            String quizName = JOptionPane.showInputDialog(this, "What is the name of the quiz: ");
             filename = filename + ".ser";
             Path savePath = Paths.get(path, filename);
             File saveFile = new File(savePath.toString());
-            
+
             // make sure the save the last question just in case
             addQuestion();
-            Quiz quiz = new Quiz("Quiz");
+            Quiz quiz = new Quiz(quizName);
             quiz.setQuestions(questions);
 
             try (FileOutputStream fs = new FileOutputStream(saveFile)) {

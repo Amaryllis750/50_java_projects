@@ -6,17 +6,19 @@ import java.awt.*;
 public class OptionButton extends JButton{
     private boolean buttonIsSelected;
     private Font buttonFont = new Font("Dialog", Font.PLAIN, 18);
-    private Color defaultForeColor = Color.white;
-    private Color defaultBackColor = Color.lightGray;
+    private Color defaultForeColor = Color.black;
+    private Color defaultBackColor = Color.white;
     private Color selectBackColor = new Color(103, 237, 84);
     private Color selectForeColor = Color.white;
-    private int noOfTimesClicked = 0;
 
     public OptionButton(String text){
         super(text);
         buttonIsSelected = false;
         setDefaultColor();
         setFont(buttonFont);
+        setHorizontalAlignment(SwingConstants.LEFT);
+        // setBorder(BorderFactory.createLineBorder(Color.lightGray));
+        
     }
 
     public void setDefaultColor(){
@@ -44,13 +46,5 @@ public class OptionButton extends JButton{
 
     public boolean getButtonIsSelected(){
         return this.buttonIsSelected;
-    }
-
-    public void incrementNumberOfTimesClicked(){
-        this.noOfTimesClicked++;
-    }
-
-    public int getNumberOfTimesClicked(){
-        return this.noOfTimesClicked;
     }
 }

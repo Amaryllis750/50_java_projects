@@ -13,6 +13,9 @@ public class QuizApp extends JFrame{
     private JPanel quizPanel;
     private Quiz quiz;
     private JPanel background;
+    private JLabel titleLabel;
+    private Font titleFont = new Font("Droid Sans", Font.BOLD, 24);
+
     public QuizApp(){
         super("Quiz App");
         setupGUI();
@@ -22,7 +25,10 @@ public class QuizApp extends JFrame{
         background = new JPanel();
         background.setLayout(new BorderLayout());
 
-        JLabel titleLabel = new JLabel("Quiz App");
+        titleLabel = new JLabel("Welcome to Quiz App");
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setForeground(new Color(108, 30, 106));
+        titleLabel.setFont(titleFont);
         background.add(BorderLayout.NORTH, titleLabel);
 
         JMenuBar menuBar = new JMenuBar();
@@ -52,10 +58,10 @@ public class QuizApp extends JFrame{
             try(FileInputStream fs = new FileInputStream(savedFile)){
                 ObjectInputStream os = new ObjectInputStream(fs);
                 quiz = (Quiz) os.readObject();
+                titleLabel.setText(quiz.getQuizName());
                 quizPanel = new QuizPanel(quiz);
                 background.add(BorderLayout.CENTER, quizPanel);
                 background.revalidate();
-                
             }
             catch(IOException e){
                 e.printStackTrace();
