@@ -199,7 +199,6 @@ public class MyJDBC {
         String email = "";
         String password = "";
 
-        String query = "SELECT * FROM todolist.users WHERE username = ? AND password = ?";
         try {
             PreparedStatement statement = con.prepareStatement(
                     "SELECT * FROM todolist.users \n" +
