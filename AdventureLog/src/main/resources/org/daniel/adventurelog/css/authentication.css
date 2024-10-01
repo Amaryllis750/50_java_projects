@@ -1,0 +1,31 @@
+.root{
+    -fx-background-color: white;
+}
+
+#imagePane{
+    -fx-background-image: url("../images/city.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100% 100%;
+}
+.email-field, .password-field{
+    -fx-padding: 5 60 5 10;
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 16;
+}
+
+.login-button, .register-button{
+    -fx-padding: 5 30 5 30;
+    -fx-font-family: "Droid Sans";
+    -fx-font-size: 14;
+}
+
+.welcome-label{
+    -fx-font-family: "Droid Sans";
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+}
+
+.to-register-link{
+    -fx-font-size: 16;
+    -fx-font-family: "Droid Sans";
+}

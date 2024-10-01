@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.skin.SplitPaneSkin.Content?>
+<?import javafx.scene.control.ButtonBar.ButtonData?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="org.daniel.adventurelog.user.AuthenticationController"
+           stylesheets="@css/authentication.css">
+    <GridPane>
+        <columnConstraints>
+            <ColumnConstraints percentWidth="50"/>
+            <ColumnConstraints percentWidth="50" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints percentHeight="100" />
+        </rowConstraints>
+        <VBox GridPane.columnIndex="0" spacing="20.0">
+            <Label text="Adventure Log">
+                <VBox.margin>
+                    <Insets top="10" left="10"/>
+                </VBox.margin>
+                <font>
+                    <Font size="16" name="Montserrat" />
+                </font>
+            </Label>
+
+            <BorderPane>
+
+                <center>
+                    <GridPane vgap="20">
+                        <BorderPane.margin>
+                            <Insets left="50"/>
+                        </BorderPane.margin>
+
+                        <Label fx:id="titleLabel" text="Welcome Back to Adventure Log" GridPane.columnIndex="0" styleClass="welcome-label">
+
+                        </Label>
+
+                        <!-- This is the field for the email -->
+                        <TextField fx:id="emailField" GridPane.rowIndex="1" styleClass="email-field"/>
+
+                        <!-- This is the field for the password -->
+                        <PasswordField fx:id="passwordField" GridPane.rowIndex="2" styleClass="password-field" />
+
+
+                        <Button text="Login" fx:id="loginButton" GridPane.rowIndex="3" styleClass="login-button"/>
+                        <Button text="Sign Up" fx:id="registerButton" GridPane.rowIndex="3" styleClass="register-button"
+                                onAction="#registerUser" visible="false"/>
+
+                        <Hyperlink fx:id="viewHyperlink"
+                                   GridPane.rowIndex="4"
+                                   onAction="#moveScene"
+                                   text="Don't have an Account yet?" styleClass="to-register-link"/>
+                    </GridPane>
+                </center>
+            </BorderPane>
+        </VBox>
+
+        <StackPane GridPane.columnIndex="1" fx:id="imagePane">
+
+        </StackPane>
+    </GridPane>
+
+</StackPane>
