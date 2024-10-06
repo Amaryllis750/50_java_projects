@@ -17,12 +17,12 @@ public class MyJDBC {
         }
     }
 
-    public static Map<Boolean, String> createUser(User user){
+    public static Map<Boolean, String> createUser(String email, String password){
         // make the connection to the database
         makeConnection();
         Map<Boolean, String> result = new HashMap<>();
 
-        if(checkIfEmailExists(user.getEmail())){
+        if(checkIfEmailExists(email)){
             result.put(false, "The user already exists");
             return result;
         }
@@ -31,8 +31,8 @@ public class MyJDBC {
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO users(email, password) VALUES (?, ?)"
             );
-            statement.setString(1, user.getEmail());
-            statement.setString(2, user.getPassword());
+            statement.setString(1, email);
+            statement.setString(2, password);
 
             int updatedRows = statement.executeUpdate();
 
@@ -81,13 +81,39 @@ public class MyJDBC {
             ResultSet rs = statement.executeQuery();
 
             if(rs.next()){
-                return new User(email, password);
+                int user_id = rs.getInt("user_id");
+                return new User(user_id, email, password);
             }
 
             return null;
         }
         catch (SQLException e){
+            //TODO: remove this runtime error and place something else when you are done
+            throw new RuntimeException(e);
+
+        }
+    }
+
+    public static boolean addDailyTask(int userId, String taskName, String deadline){
+        makeConnection();
+
+        try{
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO daily_tasks(task_name, created_time, deadline_time, status, user_id)," +
+                            "VALUES (?, julianday('now'), julianday(?), FALSE, ?);"
+            );
+            statement.setString(1, taskName);
+            statement.setString(2, deadline);
+            statement.setInt(3, userId);
+
+            int rowsUpdated = statement.executeUpdate();
+
+            return rowsUpdated == 1;
+        } catch (Exception e) {
+            //TODO: remove this runtime error and place something else here when you are done
             throw new RuntimeException(e);
         }
     }
+
+
 }

@@ -10,6 +10,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.daniel.adventurelog.jdbc.MyJDBC;
 import org.daniel.adventurelog.jdbc.User;
+import org.daniel.adventurelog.main.AdventureLog;
 import org.daniel.adventurelog.props.InfoDialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +62,7 @@ public class AuthenticationController {
     }
 
     public void moveToRegisterScene(ActionEvent event){
-        Stage stage = (Stage) ((Hyperlink)event.getSource()).getScene().getWindow();
+        Stage stage = getStage((Node) event.getSource());
 
         loginButton.setVisible(false);
         titleLabel.setText("Create An Account on Adventure Log");
@@ -76,8 +77,7 @@ public class AuthenticationController {
 
 
     public void moveToLoginScene(ActionEvent event){
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
+        Stage stage = getStage((Node) event.getSource());
 
         registerButton.setVisible(false);
         loginButton.setVisible(true);
@@ -91,14 +91,21 @@ public class AuthenticationController {
         currentScene = "LOGIN";
     }
 
+    public void moveToAdventureLogScene(ActionEvent event, User user){
+        Stage stage = getStage((Node) event.getSource());
+        AdventureLog adventureLog = new AdventureLog(user);
+        stage.setScene(adventureLog);
+    }
+
     public void registerUser(ActionEvent event){
         if(!validateInput()){
             System.out.println("There was a problem with the input");
+            InfoDialog infoDialog = new InfoDialog("No Field is to be left blank", "Error");
+            infoDialog.showAndWait();
             return ;
         }
 
-        User user = new User(emailField.getText(), passwordField.getText());
-        Map<Boolean, String> result= MyJDBC.createUser(user);
+        Map<Boolean, String> result= MyJDBC.createUser(emailField.getText(), passwordField.getText());
 
       if(result.containsKey(true)){
           moveToLoginScene(event);
@@ -109,5 +116,30 @@ public class AuthenticationController {
           infoDialog.showAndWait();
 
       }
+    }
+
+    public void loginUser(ActionEvent e){
+        if(!validateInput()){
+            InfoDialog infoDialog = new InfoDialog("No Field is to be left blank", "Error");
+            infoDialog.showAndWait();
+            return ;
+        }
+
+        String emailString = emailField.getText();
+        String passwordString = passwordField.getText();
+
+        User loggedInUser = MyJDBC.loginUser(emailString, passwordString);
+        if(loggedInUser == null){
+            InfoDialog infoDialog = new InfoDialog("The email or password is wrong", "Error");
+            return ;
+        }
+
+
+        // go to the adventure Log
+        moveToAdventureLogScene(e, loggedInUser);
+    }
+
+    private Stage getStage(Node node){
+        return (Stage) (node.getScene().getWindow());
     }
 }

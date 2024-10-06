@@ -53,7 +53,7 @@
                         <PasswordField fx:id="passwordField" GridPane.rowIndex="2" styleClass="password-field" />
 
 
-                        <Button text="Login" fx:id="loginButton" GridPane.rowIndex="3" styleClass="login-button"/>
+                        <Button text="Login" fx:id="loginButton" GridPane.rowIndex="3" styleClass="login-button" onAction="#loginUser"/>
                         <Button text="Sign Up" fx:id="registerButton" GridPane.rowIndex="3" styleClass="register-button"
                                 onAction="#registerUser" visible="false"/>
 

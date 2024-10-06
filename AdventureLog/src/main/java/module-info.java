@@ -7,6 +7,11 @@ module org.daniel.adventurelog {
 
     opens org.daniel.adventurelog to javafx.fxml;
     opens org.daniel.adventurelog.user to javafx.fxml;
+    opens org.daniel.adventurelog.main to javafx.fxml;
+    opens org.daniel.adventurelog.main.props to javafx.fxml;
+
+    // exports
     exports org.daniel.adventurelog;
+    exports org.daniel.adventurelog.main.props;
 //    exports org.daniel.adventurelog.user;
 }
