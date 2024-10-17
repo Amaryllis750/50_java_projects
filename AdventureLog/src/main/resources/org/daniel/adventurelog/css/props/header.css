@@ -1,0 +1,16 @@
+.root{
+    -fx-background-color: red;
+}
+
+.app-label {
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.user-label{
+    -fx-font-size: 18;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+

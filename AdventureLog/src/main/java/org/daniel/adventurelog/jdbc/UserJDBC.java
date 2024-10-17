@@ -5,13 +5,13 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MyJDBC {
+public class UserJDBC {
     private static Connection connection;
     private static final String DB_URL =  "jdbc:sqlite:/" + Path.of(System.getProperty("user.home")).resolve(".adventurelog/database/adventurelog.db");
 
     private static void makeConnection(){
         try {
-            connection = DriverManager.getConnection(MyJDBC.DB_URL);
+            connection = DriverManager.getConnection(UserJDBC.DB_URL);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -29,7 +29,9 @@ public class MyJDBC {
 
         try{
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO users(email, password) VALUES (?, ?)"
+                    "BEGIN TRANSACTION" +
+                            "INSERT INTO users(email, password) VALUES (?, ?)" +
+                            "END TRANSACTION;"
             );
             statement.setString(1, email);
             statement.setString(2, password);
@@ -54,8 +56,10 @@ public class MyJDBC {
 
         try{
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM users \n" +
-                            "WHERE email=?"
+                    "BEGIN TRANSACTION" +
+                            "SELECT * FROM users \n" +
+                            "WHERE email=?"+
+                            "END TRANSACTION;"
             );
             statement.setString(1, email);
             ResultSet rs = statement.executeQuery();
@@ -72,8 +76,10 @@ public class MyJDBC {
 
         try{
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM users \n" +
-                            "WHERE email=? AND password=?"
+                    "BEGIN TRANSACTION" +
+                            "SELECT * FROM users \n" +
+                            "WHERE email=? AND password=?"+
+                            "END TRANSACTION;"
             );
             statement.setString(1, email);
             statement.setString(2, password);
@@ -91,27 +97,6 @@ public class MyJDBC {
             //TODO: remove this runtime error and place something else when you are done
             throw new RuntimeException(e);
 
-        }
-    }
-
-    public static boolean addDailyTask(int userId, String taskName, String deadline){
-        makeConnection();
-
-        try{
-            PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO daily_tasks(task_name, created_time, deadline_time, status, user_id)," +
-                            "VALUES (?, julianday('now'), julianday(?), FALSE, ?);"
-            );
-            statement.setString(1, taskName);
-            statement.setString(2, deadline);
-            statement.setInt(3, userId);
-
-            int rowsUpdated = statement.executeUpdate();
-
-            return rowsUpdated == 1;
-        } catch (Exception e) {
-            //TODO: remove this runtime error and place something else here when you are done
-            throw new RuntimeException(e);
         }
     }
 

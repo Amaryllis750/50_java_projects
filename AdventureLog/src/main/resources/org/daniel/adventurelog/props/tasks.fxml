@@ -8,17 +8,15 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.daniel.adventurelog.main.AdventureLogController"
-            stylesheets="@css/adventurelog.css">
-    <top>
-        <fx:include source="props/header.fxml" />
-    </top>
+            fx:controller="org.daniel.adventurelog.main.props.TaskController"
+            stylesheets="@../css/props/tasks.css">
 
-<left>
-    <fx:include source="props/side-bar.fxml"/>
-</left>
     <center>
-        <fx:include source="props/tasks.fxml" />
+        <Label text="tasks" styleClass="text-label"/>
     </center>
+
+    <bottom>
+        <Button text="New Task" />
+    </bottom>
 
 </BorderPane>

@@ -1,0 +1,7 @@
+.sidebar-button{
+    -fx-font-family: "Montserrat";
+    -fx-background-color: transparent;
+    -fx-font-size: 19;
+    -fx-font-weight: bold;
+    -fx-text-fill: "white";
+}

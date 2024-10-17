@@ -12,7 +12,7 @@ import java.io.IOException;
 public class AdventureLog extends Scene {
     private FXMLLoader fxmlLoader;
     public AdventureLog(User user){
-        this(new Group(new Label("Welcome to adventure log")), 900, 800);
+        this(new Group(new Label("Welcome to adventure log")), 900, 600);
     }
 
     private AdventureLog(Parent root, double width, double height){
@@ -23,7 +23,7 @@ public class AdventureLog extends Scene {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        getRoot().setStyle("-fx-background-color: " + AdventureLogController.toHex(AdventureLogController.themeColor));
+//        getRoot().setStyle("-fx-background-color: " + AdventureLogController.toHex(AdventureLogController.themeColor));
     }
 
     private void setFXMLLoader(){

@@ -1,21 +1,17 @@
 package org.daniel.adventurelog.user;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import org.daniel.adventurelog.jdbc.MyJDBC;
+import org.daniel.adventurelog.jdbc.UserJDBC;
 import org.daniel.adventurelog.jdbc.User;
 import org.daniel.adventurelog.main.AdventureLog;
 import org.daniel.adventurelog.props.InfoDialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
@@ -105,7 +101,7 @@ public class AuthenticationController {
             return ;
         }
 
-        Map<Boolean, String> result= MyJDBC.createUser(emailField.getText(), passwordField.getText());
+        Map<Boolean, String> result= UserJDBC.createUser(emailField.getText(), passwordField.getText());
 
       if(result.containsKey(true)){
           moveToLoginScene(event);
@@ -128,7 +124,7 @@ public class AuthenticationController {
         String emailString = emailField.getText();
         String passwordString = passwordField.getText();
 
-        User loggedInUser = MyJDBC.loginUser(emailString, passwordString);
+        User loggedInUser = UserJDBC.loginUser(emailString, passwordString);
         if(loggedInUser == null){
             InfoDialog infoDialog = new InfoDialog("The email or password is wrong", "Error");
             return ;
